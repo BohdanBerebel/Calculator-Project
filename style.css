@@ -1,0 +1,11 @@
+button {
+    padding: 20px;
+    background-color: gray;
+    display: inline-block;
+    margin: 10px;
+}
+
+#display {
+    background-color: antiquewhite;
+    padding: 20px;
+}
