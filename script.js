@@ -14,10 +14,12 @@ const buttons = document.querySelector(".buttons");
 let firstOperand = "", secondOperand = "", operator;
 let result = 0;
 const sings = ["+", "-", "x", "/"];
+let numberTurn = 0;
 
 buttons.addEventListener("click", (e) => {
-    if (e.target.className == "number" && firstOperand == display.textContent) display.textContent = "";
+    if (e.target.className == "number" && firstOperand == display.textContent && numberTurn == 0) display.textContent = "";
     if (e.target.className == "number") display.textContent += e.target.textContent;
+    if (e.target.className == "number") numberTurn++;
 })
 
 Array.from(operators).forEach(element => {
@@ -27,10 +29,12 @@ Array.from(operators).forEach(element => {
             firstOperand = operate(firstOperand, secondOperand, operator);
             display.textContent = firstOperand;
             operator = e.target.textContent.trim();
+            numberTurn = 0
         }
         else {
             firstOperand = +display.textContent;
             operator = e.target.textContent.trim();
+            numberTurn = 0;
         }
     })
 })
@@ -38,6 +42,7 @@ Array.from(operators).forEach(element => {
 equal.addEventListener("click", (e) => {
     secondOperand = +display.textContent;
     display.textContent = operate(firstOperand, secondOperand, operator);
+    numberTurn = 0
 })
 
 clear.addEventListener("click", (e) => {
@@ -45,6 +50,7 @@ clear.addEventListener("click", (e) => {
     firstOperand = "";
     secondOperand = "";
     operator = null;
+    numberTurn = 0
 })
 
 function operate(number_1, number_2, sign) {
