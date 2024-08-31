@@ -9,3 +9,7 @@ button {
     background-color: antiquewhite;
     padding: 20px;
 }
+
+body {
+    background-color: grey;
+}

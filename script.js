@@ -1,42 +1,53 @@
 const numbers = document.querySelectorAll(".number");
-const operators = document.querySelector(".operator");
-const one = document.querySelector("#one");
-const two = document.querySelector("#two");
-const three = document.querySelector("#three");
-const four = document.querySelector("#four");
-const five = document.querySelector("#five");
-const six = document.querySelector("#six");
-const seven = document.querySelector("#seven");
-const eight = document.querySelector("#eight");
-const nine = document.querySelector("#nine");
-const zero = document.querySelector("#zero");
+const operators = document.querySelectorAll(".operator");
 const plus = document.querySelector("#add");
 const minus = document.querySelector("#subtract");
 const multiplyButton = document.querySelector("#multiply");
 const divideButton = document.querySelector("#divide");
 const display = document.querySelector("#display");
+const equal = document.querySelector("#equal");
+const clear = document.querySelector("#clear");
+
 
 const buttons = document.querySelector(".buttons");
 
-let firstOperand, secondOperand, operator;
+let firstOperand = "", secondOperand = "", operator;
 let result = 0;
+const sings = ["+", "-", "x", "/"];
 
 buttons.addEventListener("click", (e) => {
-    if (e.target.localName == "button") display.textContent = e.target.textContent;
-    if (firstOperand != undefined && e.target.className == "operator") operator = e.target.textContent; 
-    // console.log   
-    if (firstOperand == undefined && e.target.className == "number") firstOperand = +e.target.textContent;
-    if (firstOperand != undefined && operator!= undefined && secondOperand == undefined && e.target.className == "number") secondOperand = +e.target.textContent;
-    if (firstOperand != undefined && operator!= undefined && secondOperand != undefined && e.target.className == "number") {
-        secondOperand = +e.target.textContent;   
-        result = operate(firstOperand, secondOperand, operator);
-        display.textContent = result;
-        firstOperand = result;
-    }
+    if (e.target.className == "number" && firstOperand == display.textContent) display.textContent = "";
+    if (e.target.className == "number") display.textContent += e.target.textContent;
+})
+
+Array.from(operators).forEach(element => {
+    element.addEventListener("click", (e) => {
+        if (firstOperand && operator) {
+            secondOperand = +display.textContent;
+            firstOperand = operate(firstOperand, secondOperand, operator);
+            display.textContent = firstOperand;
+            operator = e.target.textContent.trim();
+        }
+        else {
+            firstOperand = +display.textContent;
+            operator = e.target.textContent.trim();
+        }
+    })
+})
+
+equal.addEventListener("click", (e) => {
+    secondOperand = +display.textContent;
+    display.textContent = operate(firstOperand, secondOperand, operator);
+})
+
+clear.addEventListener("click", (e) => {
+    display.textContent = "";
+    firstOperand = "";
+    secondOperand = "";
+    operator = null;
 })
 
 function operate(number_1, number_2, sign) {
-    const sings = ["+", "-", "x", "/"];
     switch (sign) {
         case sings[0]:
             return sum(number_1, number_2);
