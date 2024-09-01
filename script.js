@@ -25,6 +25,7 @@ dot.addEventListener("click", (e) => {
 
 buttons.addEventListener("click", (e) => {
     if (e.target.className == "number" && firstOperand == display.textContent && numberTurn == 0) display.textContent = "";
+    if (display.textContent.length > 10) return;
     if (e.target.className == "number" && display.textContent === "Dude, it does not work") reset();
     if (e.target.className == "number" && firstOperand == display.textContent && numberTurn == 0) {
         firstOperand = '';
@@ -114,5 +115,16 @@ function reset() {
 
 document.addEventListener("keypress", (e) => {
     if (isNaN(+e.key)) return;
+    if (display.textContent.length > 10) return;
     display.textContent += e.key;
+
+})
+
+document.addEventListener("keydown", (e) => {
+    if (e.key == "Backspace") display.textContent =
+     display.textContent.slice(0, -1);
+})
+
+document.addEventListener("keydown", (e) => {
+    if (e.key == "Escape") reset();
 })
